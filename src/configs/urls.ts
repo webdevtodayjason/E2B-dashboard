@@ -51,11 +51,6 @@ export const HELP_URLS = {
   START_COMMAND: 'https://e2b.dev/docs/sandbox-template/start-cmd',
 }
 
-export const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_ENV
-    ? process.env.VERCEL_ENV === 'production'
-      ? 'https://e2b.dev'
-      : `https://${process.env.VERCEL_BRANCH_URL}`
-    : 'http://localhost:3000')
+export const BASE_URL = 'https://e2b-dashboard.semfreak.dev'
 
 export const GITHUB_URL = 'https://github.com/e2b-dev'
