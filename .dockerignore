@@ -1,0 +1,18 @@
+# Dependencies
+node_modules
+
+# Next.js build output
+.next
+out
+
+# VCS
+.git
+.gitignore
+
+# Env files (managed via Coolify)
+.env*
+
+# Misc
+Dockerfile*
+README.md
+.vscode

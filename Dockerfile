@@ -1,0 +1,31 @@
+# ---- Base deps ----
+FROM oven/bun:1 AS deps
+WORKDIR /app
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
+
+# ---- Build ----
+FROM oven/bun:1 AS builder
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+# Build-time args for Next public envs (Coolify: mark these as Build vars)
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ARG NEXT_PUBLIC_E2B_DOMAIN
+ARG INFRA_API_URL
+RUN bun run build
+
+# ---- Runtime ----
+FROM oven/bun:1 AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+EXPOSE 3000
+CMD ["bun", "run", "start"]
