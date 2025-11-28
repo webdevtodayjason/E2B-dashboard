@@ -36,6 +36,7 @@ CREATE TABLE public.users_teams (
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   team_id UUID NOT NULL REFERENCES public.teams(id) ON DELETE CASCADE,
   role TEXT NOT NULL DEFAULT 'member',
+  is_default BOOLEAN DEFAULT false,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   PRIMARY KEY (user_id, team_id)
 );
@@ -108,8 +109,8 @@ BEGIN
   VALUES (NEW.id, team_name, final_slug, NOW(), NOW());
   
   -- Add user to team as owner
-  INSERT INTO public.users_teams (user_id, team_id, role)
-  VALUES (NEW.id, NEW.id, 'owner');
+  INSERT INTO public.users_teams (user_id, team_id, role, is_default)
+  VALUES (NEW.id, NEW.id, 'owner', true);
   
   RETURN NEW;
 EXCEPTION WHEN OTHERS THEN
