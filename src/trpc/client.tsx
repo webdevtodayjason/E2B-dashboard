@@ -1,5 +1,6 @@
 'use client'
 
+import { BASE_URL } from '@/configs/urls'
 import type { TRPCAppRouter } from '@/server/api/routers'
 import type { QueryClient } from '@tanstack/react-query'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -44,9 +45,7 @@ function getQueryClient() {
 function getUrl() {
   const base = (() => {
     if (typeof window !== 'undefined') return ''
-    if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
-    return 'http://localhost:3000'
-  })()
+    return BASE_URL
   return `${base}/api/trpc`
 }
 
