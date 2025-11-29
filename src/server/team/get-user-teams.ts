@@ -20,7 +20,8 @@ export async function getUserTeams(user: User): Promise<ClientTeam[]> {
     return []
   }
 
-  const teamIds = usersTeamsData.map((userTeam) => userTeam.teams.id)
+  const rowsWithTeams = usersTeamsData.filter((userTeam) => Boolean(userTeam.teams))
+  const teamIds = rowsWithTeams.map((userTeam) => userTeam.teams.id)
 
   try {
     const { data: allConnectedDefaultTeamRelations, error: relationsError } =
@@ -57,8 +58,8 @@ export async function getUserTeams(user: User): Promise<ClientTeam[]> {
       defaultTeamAuthUsers?.map((u) => [u.id, u.email]) ?? []
     )
 
-    return usersTeamsData.map((userTeam) => {
-      const team = userTeam.teams
+    return rowsWithTeams.map((userTeam) => {
+      const team = userTeam.teams!
       const defaultTeamRelation = allConnectedDefaultTeamRelations?.find(
         (relation) => relation.team_id === team.id
       )
@@ -92,8 +93,8 @@ export async function getUserTeams(user: User): Promise<ClientTeam[]> {
       },
     })
 
-    return usersTeamsData.map((userTeam) => ({
-      ...userTeam.teams,
+    return rowsWithTeams.map((userTeam) => ({
+      ...userTeam.teams!,
       is_default: userTeam.is_default,
     }))
   }
