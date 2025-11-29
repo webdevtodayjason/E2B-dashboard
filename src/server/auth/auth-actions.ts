@@ -1,6 +1,6 @@
 'use server'
 
-import { AUTH_URLS, PROTECTED_URLS } from '@/configs/urls'
+import { AUTH_URLS, BASE_URL, PROTECTED_URLS } from '@/configs/urls'
 import { USER_MESSAGES } from '@/configs/user-messages'
 import { actionClient } from '@/lib/clients/action'
 import { l } from '@/lib/clients/logger/logger'
@@ -66,7 +66,7 @@ export const signInWithOAuthAction = actionClient
 
     const headerStore = await headers()
 
-    const origin = headerStore.get('origin')
+    const origin = BASE_URL
 
     if (!origin) {
       throw new Error('Origin not found')
@@ -133,7 +133,7 @@ export const signUpAction = actionClient
     const supabase = await createClient()
     const headerStore = await headers()
 
-    const origin = headerStore.get('origin')
+    const origin = BASE_URL
 
     if (!origin) {
       throw new Error('Origin not found')
@@ -206,7 +206,7 @@ export const signInAction = actionClient
 
     const headerStore = await headers()
 
-    const origin = headerStore.get('origin')
+    const origin = BASE_URL
 
     if (!origin) {
       throw new Error('Origin not found')
