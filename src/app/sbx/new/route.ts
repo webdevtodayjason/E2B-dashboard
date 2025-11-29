@@ -1,5 +1,5 @@
 import { SUPABASE_AUTH_HEADERS } from '@/configs/api'
-import { AUTH_URLS, PROTECTED_URLS } from '@/configs/urls'
+import { AUTH_URLS, PROTECTED_URLS, BASE_URL } from '@/configs/urls'
 import { l } from '@/lib/clients/logger/logger'
 import { createClient } from '@/lib/clients/supabase/server'
 import { getDefaultTeam } from '@/server/auth/get-default-team'
@@ -19,7 +19,7 @@ export const GET = async (req: NextRequest) => {
       })
 
       return NextResponse.redirect(
-        new URL(`${AUTH_URLS.SIGN_IN}?${params.toString()}`, req.url)
+        new URL(f`${AUTH_URLS.SIGN_IN}?${params.toString()}`, BASE_URL)
       )
     }
 
@@ -31,7 +31,7 @@ export const GET = async (req: NextRequest) => {
       })
 
       return NextResponse.redirect(
-        new URL(`${AUTH_URLS.SIGN_IN}?${params.toString()}`, req.url)
+        new URL(f`${AUTH_URLS.SIGN_IN}?${params.toString()}`, BASE_URL)
       )
     }
 
@@ -49,7 +49,7 @@ export const GET = async (req: NextRequest) => {
       sbx.sandboxId
     )
 
-    return NextResponse.redirect(new URL(inspectUrl, req.url))
+    return NextResponse.redirect(new URL(inspectUrl, BASE_URL))
   } catch (error) {
     l.warn(
       {
@@ -59,6 +59,6 @@ export const GET = async (req: NextRequest) => {
       `sbx_new: unexpected error`
     )
 
-    return NextResponse.redirect(new URL(req.url).origin)
+    return NextResponse.redirect(new URL(BASE_URL).origin)
   }
 }

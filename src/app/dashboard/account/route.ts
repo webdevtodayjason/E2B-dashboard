@@ -1,4 +1,4 @@
-import { AUTH_URLS, PROTECTED_URLS } from '@/configs/urls'
+import { AUTH_URLS, PROTECTED_URLS, BASE_URL } from '@/configs/urls'
 import { createClient } from '@/lib/clients/supabase/server'
 import { encodedRedirect } from '@/lib/utils/auth'
 import { setTeamCookies } from '@/lib/utils/cookies'
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabase.auth.getUser()
 
   if (error || !data.user) {
-    return NextResponse.redirect(new URL(AUTH_URLS.SIGN_IN, request.url))
+    return NextResponse.redirect(new URL(AUTH_URLS.SIGN_IN, BASE_URL))
   }
 
   // Resolve team for the user
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     // UNEXPECTED STATE - sign out and redirect to sign-in
     await supabase.auth.signOut()
 
-    const signInUrl = new URL(AUTH_URLS.SIGN_IN, request.url)
+    const signInUrl = new URL(AUTH_URLS.SIGN_IN, BASE_URL)
 
     return encodedRedirect(
       'error',
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
   const redirectPath = PROTECTED_URLS.RESOLVED_ACCOUNT_SETTINGS(
     team.slug || team.id
   )
-  const redirectUrl = new URL(redirectPath, request.url)
+  const redirectUrl = new URL(redirectPath, BASE_URL)
 
   // Preserve query parameters (e.g., reauth=1)
   request.nextUrl.searchParams.forEach((value, key) => {

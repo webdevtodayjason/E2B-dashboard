@@ -1,4 +1,4 @@
-import { AUTH_URLS, PROTECTED_URLS } from '@/configs/urls'
+import { AUTH_URLS, PROTECTED_URLS, BASE_URL } from '@/configs/urls'
 import { createClient } from '@/lib/clients/supabase/server'
 import { encodedRedirect } from '@/lib/utils/auth'
 import { setTeamCookies } from '@/lib/utils/cookies'
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabase.auth.getUser()
 
   if (error || !data.user) {
-    return NextResponse.redirect(new URL('/sign-in', request.url))
+    return NextResponse.redirect(new URL('/sign-in', BASE_URL))
   }
 
   const team = await resolveUserTeam(data.user.id)
@@ -55,5 +55,5 @@ export async function GET(request: NextRequest) {
     ? urlGenerator(team.slug || team.id)
     : PROTECTED_URLS.SANDBOXES(team.slug || team.id)
 
-  return NextResponse.redirect(new URL(redirectPath, request.url))
+  return NextResponse.redirect(new URL(redirectPath, BASE_URL))
 }

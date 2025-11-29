@@ -1,4 +1,4 @@
-import { AUTH_URLS, PROTECTED_URLS } from '@/configs/urls'
+import { AUTH_URLS, PROTECTED_URLS, BASE_URL } from '@/configs/urls'
 import { l } from '@/lib/clients/logger/logger'
 import { createClient } from '@/lib/clients/supabase/server'
 import { encodedRedirect } from '@/lib/utils/auth'
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     next: searchParams.get('next'),
   })
 
-  const dashboardSignInUrl = new URL(request.nextUrl.origin + AUTH_URLS.SIGN_IN)
+  const dashboardSignInUrl = new URL(BASE_URL + AUTH_URLS.SIGN_IN)
 
   if (!result.success) {
     l.error({

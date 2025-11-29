@@ -4,7 +4,6 @@ import { authActionClient } from '@/lib/clients/action'
 import { generateE2BUserAccessToken } from '@/lib/utils/server'
 import { returnValidationErrors } from 'next-safe-action'
 import { revalidatePath } from 'next/cache'
-import { headers } from 'next/headers'
 import { z } from 'zod'
 
 const UpdateUserSchema = z
@@ -47,7 +46,7 @@ export const updateUserAction = authActionClient
       }
     }
 
-    const origin = (await headers()).get('origin')
+    const origin = require('@/configs/urls').BASE_URL
 
     const { data: updateData, error } = await supabase.auth.updateUser(
       {

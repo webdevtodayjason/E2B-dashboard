@@ -1,4 +1,4 @@
-import { AUTH_URLS, PROTECTED_URLS } from '@/configs/urls'
+import { AUTH_URLS, PROTECTED_URLS, BASE_URL } from '@/configs/urls'
 import { l } from '@/lib/clients/logger/logger'
 import { createClient } from '@/lib/clients/supabase/server'
 import { encodedRedirect } from '@/lib/utils/auth'
@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
-  const origin = requestUrl.origin
+  const origin = BASE_URL
   const returnTo = requestUrl.searchParams.get('returnTo')?.toString()
   const redirectTo = requestUrl.searchParams.get('redirect_to')?.toString()
 
