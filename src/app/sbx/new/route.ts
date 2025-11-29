@@ -19,7 +19,7 @@ export const GET = async (req: NextRequest) => {
       })
 
       return NextResponse.redirect(
-        new URL(f`${AUTH_URLS.SIGN_IN}?${params.toString()}`, BASE_URL)
+        new URL(`${AUTH_URLS.SIGN_IN}?${params.toString()}`, BASE_URL)
       )
     }
 
@@ -31,7 +31,7 @@ export const GET = async (req: NextRequest) => {
       })
 
       return NextResponse.redirect(
-        new URL(f`${AUTH_URLS.SIGN_IN}?${params.toString()}`, BASE_URL)
+        new URL(`${AUTH_URLS.SIGN_IN}?${params.toString()}`, BASE_URL)
       )
     }
 
