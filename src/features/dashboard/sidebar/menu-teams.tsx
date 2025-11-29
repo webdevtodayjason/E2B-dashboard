@@ -43,9 +43,13 @@ export default function DashboardSidebarMenuTeams() {
         throw new Error(`Failed to fetch teams: ${response.status}`)
       }
 
-      const { teams } = (await response.json()) as UserTeamsResponse
-
-      return teams
+      try {
+        const { teams } = (await response.json()) as UserTeamsResponse
+        return teams || []
+      } catch (e) {
+        console.error('Failed to parse teams', e)
+        return []
+      }
     },
     {
       keepPreviousData: true,
