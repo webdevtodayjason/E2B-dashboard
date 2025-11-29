@@ -45,3 +45,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.redirect(redirectUrl)
 }
+
+
+// Support RSC POST navigations
+export const POST = GET

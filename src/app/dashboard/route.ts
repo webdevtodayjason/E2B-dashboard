@@ -57,3 +57,8 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.redirect(new URL(redirectPath, BASE_URL))
 }
+
+
+// Some RSC navigations issue POST requests with Accept: text/x-component.
+// Mirror GET handler to handle those and avoid 405 behind proxies.
+export const POST = GET
