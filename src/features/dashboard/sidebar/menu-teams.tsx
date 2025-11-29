@@ -104,7 +104,7 @@ export default function DashboardSidebarMenuTeams() {
         <DropdownMenuLabel className="mb-2">{user.email}</DropdownMenuLabel>
       )}
       {teams && teams.length > 0 ? (
-        teams.filter(Boolean).map((team) => (
+        teams.filter((t) => t && t.id).map((team) => (
           <Link href={getNextUrl(team)} passHref key={team.id}>
             <DropdownMenuRadioItem value={team.id}>
               <Avatar className="size-5 shrink-0 border-none">
