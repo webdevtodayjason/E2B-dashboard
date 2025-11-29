@@ -239,7 +239,8 @@ export const signInAction = actionClient
       throw redirect(url.toString())
     }
 
-    throw redirect(returnTo || PROTECTED_URLS.DASHBOARD)
+    const redirectUrl = new URL(returnTo || PROTECTED_URLS.DASHBOARD, origin)
+    throw redirect(redirectUrl.toString())
   })
 
 export const forgotPasswordAction = actionClient
