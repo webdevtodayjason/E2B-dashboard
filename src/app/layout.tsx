@@ -29,8 +29,12 @@ export default function RootLayout({
             <Toaster />
           </Suspense>
         </ClientProviders>
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL_ENV === 'production' && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </Body>
     </html>
   )
