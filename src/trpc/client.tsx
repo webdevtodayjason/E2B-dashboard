@@ -46,6 +46,7 @@ function getUrl() {
   const base = (() => {
     if (typeof window !== 'undefined') return ''
     return BASE_URL
+  })()
   return `${base}/api/trpc`
 }
 
